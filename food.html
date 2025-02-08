@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Meal Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .meal-plan {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .meal-plan h3 {
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .meal-plan ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .meal-plan ul li {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Meal Planner</h1>
+        <label for="calories">Enter your daily calorie target (kcal):</label>
+        <input type="number" id="calories" placeholder="e.g., 1932">
+        <button onclick="generateMealPlan()">Generate Meal Plan</button>
+
+        <div class="meal-plan" id="mealPlan">
+            <!-- Meal plan will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        function generateMealPlan() {
+            const calorieTarget = parseInt(document.getElementById('calories').value);
+            if (isNaN(calorieTarget) || calorieTarget <= 0) {
+                alert("Please enter a valid calorie target.");
+                return;
+            }
+
+            // Hardcoded meal suggestions
+            const meals = {
+                breakfast: [
+                    { name: "2 boiled eggs + 1 slice whole-grain bread", calories: 250 },
+                    { name: "1 cup oatmeal + 1 banana", calories: 300 },
+                    { name: "Greek yogurt with honey and nuts", calories: 200 }
+                ],
+                lunch: [
+                    { name: "Grilled chicken breast + quinoa + veggies", calories: 500 },
+                    { name: "Vegetable stir-fry with tofu", calories: 400 },
+                    { name: "Salmon + sweet potatoes + asparagus", calories: 450 }
+                ],
+                dinner: [
+                    { name: "Baked salmon + mashed potatoes + broccoli", calories: 450 },
+                    { name: "Grilled turkey wrap with hummus", calories: 400 },
+                    { name: "Vegetable curry with brown rice", calories: 350 }
+                ],
+                snacks: [
+                    { name: "1 apple + 10 almonds", calories: 150 },
+                    { name: "1 protein bar", calories: 200 },
+                    { name: "1 boiled egg + 1 handful of walnuts", calories: 150 }
+                ]
+            };
+
+            // Randomly select meals for the day
+            const selectedMeals = {
+                breakfast: meals.breakfast[Math.floor(Math.random() * meals.breakfast.length)],
+                lunch: meals.lunch[Math.floor(Math.random() * meals.lunch.length)],
+                dinner: meals.dinner[Math.floor(Math.random() * meals.dinner.length)],
+                snacks: meals.snacks[Math.floor(Math.random() * meals.snacks.length)]
+            };
+
+            // Calculate total calories
+            const totalCalories = selectedMeals.breakfast.calories + selectedMeals.lunch.calories + selectedMeals.dinner.calories + selectedMeals.snacks.calories;
+
+            // Display the meal plan
+            const mealPlanDiv = document.getElementById('mealPlan');
+            mealPlanDiv.innerHTML = `
+                <h3>Your Meal Plan (Total: ${totalCalories} kcal)</h3>
+                <ul>
+                    <li><strong>Breakfast:</strong> ${selectedMeals.breakfast.name} (${selectedMeals.breakfast.calories} kcal)</li>
+                    <li><strong>Lunch:</strong> ${selectedMeals.lunch.name} (${selectedMeals.lunch.calories} kcal)</li>
+                    <li><strong>Dinner:</strong> ${selectedMeals.dinner.name} (${selectedMeals.dinner.calories} kcal)</li>
+                    <li><strong>Snacks:</strong> ${selectedMeals.snacks.name} (${selectedMeals.snacks.calories} kcal)</li>
+                </ul>
+                <p>You have ${calorieTarget - totalCalories} kcal remaining for the day.</p>
+            `;
+        }
+    </script>
+</body>
+</html>

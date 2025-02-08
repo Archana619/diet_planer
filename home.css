@@ -1,0 +1,14 @@
+.topnav{
+    font-size: 30px;
+    /* background-color:black ; */
+display:flex ;
+/* flex-direction: column; */
+justify-content: center;
+gap: 20px;
+color: red
+}
+a{
+text-decoration: none;
+color: black
+
+}
